@@ -1,0 +1,36 @@
+.add-task {
+  &__button {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 16px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &--aside {
+      min-width: 100%;
+      margin-left: 5px;
+      font-size: 14px;
+    }
+
+    &.visible {
+      display: none;
+    }
+  }
+
+  &__text {
+    margin-left: 10px;
+    color: #767676;
+  }
+}
+
+.add-task__button .add-task__icon {
+  width: 14px;
+  height: 14px;
+}
+
+.add-task__button--aside .add-task__icon {
+  width: 12px;
+  height: 12px;
+}

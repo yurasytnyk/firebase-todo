@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC } from 'react';
+import { 
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 
-function App() {
+import { TodoRoute } from './routes/todo-route/route';
+import { LoginPage } from './pages/login-page/module';
+import { RegistrationPage } from './pages/registration-page/module';
+
+export const App: FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Routes>
+      <Route path="/protected/*" element={<TodoRoute />} />
 
-export default App;
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/registration" element={<RegistrationPage />} />
+      <Route path="*" element={<Navigate to="/protected/all" replace />} />
+    </Routes>
+  );
+};

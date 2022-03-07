@@ -1,0 +1,22 @@
+.add-button {
+  padding: 10px 20px;
+  margin-top: 15px;
+  font-weight: 600;
+  background-color: #4dd599;
+  color: #fff;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &--fullWidth {
+    min-width: 100%;
+  }
+
+  &:hover {
+    background-color: darken(#4dd599, 5%);
+  }
+
+  &:active {
+    background-color: darken(#4dd599, 10%);
+  }
+}

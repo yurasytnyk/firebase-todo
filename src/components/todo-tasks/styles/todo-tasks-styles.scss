@@ -1,0 +1,13 @@
+.todo {
+  &__tasks {
+    height: 80%;
+    flex: 1;
+    padding: 0 60px 60px;
+    margin-top: 60px;
+    overflow: scroll;
+
+    &-block {
+      margin-top: 15px;
+    }
+  }
+}

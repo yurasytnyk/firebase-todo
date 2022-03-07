@@ -1,0 +1,56 @@
+.tasks__items {
+  margin-top: 20px;
+
+  &-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .remove-icon {
+      opacity: 1;
+    }
+  }
+
+  &-label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e8e8e8;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: -2;
+    }
+
+    &.completed::before {
+      background-color: #4dd599;
+      border: 2px solid transparent;
+    }
+  }
+
+  &-empty {
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 40px;
+    color: #c9d1d3;
+  }
+
+  &-check {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+
+  &-checkbox {
+    display: none;
+  }
+}
