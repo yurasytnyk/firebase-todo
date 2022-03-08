@@ -3,6 +3,10 @@ import {
   put, 
   takeLatest,
 } from 'redux-saga/effects';
+import { 
+  addDoc, 
+  collection, 
+} from 'firebase/firestore';
 
 import { registration } from '../routines/registration-form-routine';
 import { IRegistrationCredentials } from '../types/registration-form-types';
@@ -23,6 +27,8 @@ function* registrationWorker(action: PayloadAction<IRegistrationCredentials>) {
       password,
     } = action.payload;
     const response: UserCredential = yield call(FirebaseClient.signUp, email, password);
+    const userRef = collection(FirebaseClient.db, 'users', `${response.user.uid}`, 'lists');
+    yield addDoc(userRef, {});
 
     yield localStorage.setItem('token', JSON.stringify(response.user.refreshToken));
     yield put(success());

@@ -6,14 +6,15 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 
-import { listsCollection } from '../../../../firestore/collections/lists-collection';
 import { FirebaseClient } from '../../../../firestore/firebase-client/firebase-client';
+import { IListsCollection } from '../../../../firestore/types/lists-collection-types';
 import { 
   deleteListRoutine, 
   listRoutine, 
 } from '../routines/tasks-list-routine';
+import { IPayloadIds } from '../types/todo-sidebar-types';
 
-function* getListsWorker() {
+function* getListsWorker(action: PayloadAction<string>) {
   const {
     success,
     failure,
@@ -21,7 +22,9 @@ function* getListsWorker() {
   } = listRoutine;
   
   try {
+    const listsCollection = FirebaseClient.createCollection<IListsCollection>(`users/${action.payload}/lists`);
     const tasksList: CollectionReference = yield call(FirebaseClient.getDocuments, listsCollection);
+
     yield put(success(tasksList));
   } catch (error) {
     console.error(error);
@@ -31,14 +34,21 @@ function* getListsWorker() {
   }
 }
 
-function* deleteListWorker(action: PayloadAction<string>) {
+function* deleteListWorker(action: PayloadAction<IPayloadIds>) {
   const {
     failure,
     fulfill,
   } = deleteListRoutine;
 
+  const { 
+    userId,
+    listId,
+  } = action.payload;
+
   try {
-    yield FirebaseClient.deleteDocument(listsCollection, action.payload);
+    const listsCollection = FirebaseClient.createCollection<IListsCollection>(`users/${userId}/lists`);
+
+    yield FirebaseClient.deleteDocument(listsCollection, listId);
   } catch (error) {
     console.error(error);
     yield failure();

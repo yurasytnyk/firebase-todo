@@ -3,8 +3,10 @@ import {
   CollectionReference,
   getDocs,
   deleteDoc,
+  updateDoc,
   doc,
   getFirestore,
+  UpdateData,
 } from 'firebase/firestore';
 import { 
   getAuth,
@@ -40,6 +42,14 @@ export class FirebaseClient {
   static async deleteDocument<T>(collection: CollectionReference<T>, id: string) {
     try {
       await deleteDoc(doc(collection, id));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  static async updateDocument<T>(collection: CollectionReference<T>, data: UpdateData<T>) {
+    try {
+      await updateDoc(doc(collection), data);
     } catch (error) {
       console.error(error);
     }

@@ -8,15 +8,21 @@ import {
 import { FirebaseClient } from '../../../../firestore/firebase-client/firebase-client';
 import { deleteTaskRoutine } from '../routines/tasks-items-routine';
 
-function* tasksWorker(action: PayloadAction<{ list: string; task: number; }>) {
+function* tasksWorker(action: PayloadAction<{ userId: string; list: string; task: number; }>) {
   const {
     failure,
     fulfill,
   } = deleteTaskRoutine;
 
+  const {
+    userId,
+    list,
+    task,
+  } = action.payload;
+
   try {
-    yield updateDoc(doc(FirebaseClient.db, 'lists', action.payload.list), {
-      tasks: arrayRemove(action.payload.task),
+    yield updateDoc(doc(FirebaseClient.db, 'users', `${userId}`, 'lists', `${list}`), {
+      tasks: arrayRemove(task),
     });
   } catch (error) {
     console.error(error);

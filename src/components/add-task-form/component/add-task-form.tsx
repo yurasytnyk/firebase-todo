@@ -23,6 +23,7 @@ import { AddTaskButton } from '../../add-task-button/component';
 import { AddButton } from '../../add-button/component';
 import { CancelButton } from '../../cancel-button/component';
 import { FirebaseClient } from '../../../firestore/firebase-client/firebase-client';
+import { useAppSelector } from '../../../store/hooks/use-app-selector/use-app-selector';
 import '../styles/add-task-form-styles.scss';
 
 export const AddTaskForm: FC<Props> = (props) => {
@@ -30,6 +31,8 @@ export const AddTaskForm: FC<Props> = (props) => {
 
   const [visible, setVisible] = useState(false);
   
+  const userId = useAppSelector((state) => state.auth.isAuth.uuid);
+
   const classes = clsx(
     'task-form',
     visible && 'visible',
@@ -40,7 +43,7 @@ export const AddTaskForm: FC<Props> = (props) => {
   };
 
   const addNewTask = async (values: IFormValue) => {
-    await updateDoc(doc(FirebaseClient.db, 'lists', `${id}`), {
+    await updateDoc(doc(FirebaseClient.db, 'users', `${userId}`, 'lists', `${id}`), {
       tasks: arrayUnion({
         id: uuid(),
         title: values.task,

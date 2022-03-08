@@ -8,3 +8,8 @@ export interface IColorsState {
 export interface IListsState {
   data: IListsCollection[];
 }
+
+export interface IPayloadIds {
+  userId: string;
+  listId: string;
+}

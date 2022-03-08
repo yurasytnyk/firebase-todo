@@ -8,8 +8,9 @@ import { Badge } from '../../badge/component';
 import { RemoveListIcon } from '../../remove-list-icon/component';
 import { useAppDispatch } from '../../../store/hooks/use-dispatch/use-dispatch';
 import { deleteListRoutine } from '../../../store/features/todo-sidebar/routines/tasks-list-routine';
-import '../styles/todo-list-item-styles.scss';
 import { TodoListCount } from '../../todo-list-count/component';
+import { useAppSelector } from '../../../store/hooks/use-app-selector/use-app-selector';
+import '../styles/todo-list-item-styles.scss';
 
 export const TodoListItem: FC<Props> = (props) => {
   const {
@@ -24,10 +25,11 @@ export const TodoListItem: FC<Props> = (props) => {
     active && 'active',
   );
 
+  const userId = useAppSelector((state) => state.auth.isAuth.uuid);
   const dispatch = useAppDispatch();
 
-  const onClickHandler = (id: string) => {
-    dispatch(deleteListRoutine(id));
+  const onClickHandler = (listId: string) => {
+    dispatch(deleteListRoutine({ userId, listId }));
   };
 
   return (

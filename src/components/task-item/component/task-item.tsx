@@ -14,6 +14,7 @@ import { ITasks } from '../../../firestore/types/lists-collection-types';
 import { FirebaseClient } from '../../../firestore/firebase-client/firebase-client';
 import { RemoveListIcon } from '../../remove-list-icon/component';
 import CheckIconSvg from '../../../assets/img/check.svg';
+import { useAppSelector } from '../../../store/hooks/use-app-selector/use-app-selector';
 
 export const TaskItem: FC<Props> = (props) => {
   const {
@@ -22,10 +23,11 @@ export const TaskItem: FC<Props> = (props) => {
     tasksData,
   } = props;
 
+  const userId = useAppSelector((state) => state.auth.isAuth.uuid);
   const dispatch = useAppDispatch();
 
   const onClickHandler = (list: string, task?: ITasks) => {
-    dispatch(deleteTaskRoutine({ list, task }));
+    dispatch(deleteTaskRoutine({ userId, list, task }));
   };
 
   const onCompleteStatusHandler = (item: ITasks) => async (e: SyntheticEvent) => {
@@ -39,7 +41,7 @@ export const TaskItem: FC<Props> = (props) => {
         return task.id !== updatedTask.id ? task : updatedTask;
       });
 
-      await updateDoc(doc(FirebaseClient.db, 'lists', `${id}`), {
+      await updateDoc(doc(FirebaseClient.db, `users/${userId}/lists/${id}`), {
         tasks: updatedTasks,
       });
     }

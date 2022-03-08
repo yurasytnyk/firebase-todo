@@ -6,14 +6,16 @@ import {
   FormikHelpers, 
   useFormik, 
 } from 'formik';
+import { addDoc } from 'firebase/firestore';
 
 import { IAddPopupList } from '../types/add-popup-types';
 import { AddPopupContext } from '../../../contexts/add-popup-context/context/add-popup-context';
 import { CloseButton } from '../../close-button/component';
 import { AddButton } from '../../add-button/component';
-import { addDoc } from 'firebase/firestore';
-import { listsCollection } from '../../../firestore/collections/lists-collection';
 import { AddPopupColors } from '../../add-popup-colors/component';
+import { useAppSelector } from '../../../store/hooks/use-app-selector/use-app-selector';
+import { FirebaseClient } from '../../../firestore/firebase-client/firebase-client';
+import { IListsCollection } from '../../../firestore/types/lists-collection-types';
 import '../styles/add-popup-styles.scss';
 
 export const AddPopup: FC = () => {
@@ -22,12 +24,15 @@ export const AddPopup: FC = () => {
     visible,
   } = useContext(AddPopupContext);
 
+  const userId = useAppSelector((state) => state.auth.isAuth.uuid);
+  const userRef = FirebaseClient.createCollection<IListsCollection>(`users/${userId}/lists`);
+
   const onSubmitHandler = async (
     values: IAddPopupList, 
     actions: FormikHelpers<IAddPopupList>
   ) => {
     if ('id' in activeColor) {
-      await addDoc(listsCollection, {
+      await addDoc(userRef, {
         name: values.list,
         active: false,
         colorId: activeColor.id,

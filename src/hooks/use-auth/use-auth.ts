@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { onAuthStateChanged, UserProfile } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import { useAppDispatch } from '../../store/hooks/use-dispatch/use-dispatch';
 import { useAppSelector } from '../../store/hooks/use-app-selector/use-app-selector';
