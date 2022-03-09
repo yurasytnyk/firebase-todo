@@ -24,7 +24,7 @@ export const useListsSearch = () => {
 
   useEffect(() => {
     dispatch(setFilteredLists(filteredData));
-  }, [filteredData]);
+  }, [filteredData]); // eslint-disable-line
 
   return {
     filteredData,

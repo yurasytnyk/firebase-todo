@@ -2,6 +2,7 @@ import {
   collection, 
   CollectionReference,
   getDocs,
+  addDoc,
   deleteDoc,
   updateDoc,
   doc,
@@ -25,6 +26,14 @@ export class FirebaseClient {
 
   static createCollection<T>(path: string) {
     return collection(FirebaseClient.db, path) as CollectionReference<T>;
+  }
+
+  static async addDocument<T>(collection: CollectionReference<T>, data: T) {
+    try {
+      return await addDoc(collection, data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   static async getDocuments<T>(collection: CollectionReference<T>) {

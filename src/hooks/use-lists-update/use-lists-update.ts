@@ -37,7 +37,7 @@ export const useListsUpdate = () => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, []); // eslint-disable-line
 
   return {
     onClickHandler,
