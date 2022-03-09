@@ -43,7 +43,7 @@ export const AddTaskForm: FC<Props> = (props) => {
   };
 
   const addNewTask = async (values: IFormValue) => {
-    await updateDoc(doc(FirebaseClient.db, 'users', `${userId}`, 'lists', `${id}`), {
+    await updateDoc(doc(FirebaseClient.db, `users/${userId}/lists/${id}`), {
       tasks: arrayUnion({
         id: uuid(),
         title: values.task,
