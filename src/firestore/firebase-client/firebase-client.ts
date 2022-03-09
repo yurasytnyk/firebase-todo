@@ -6,7 +6,6 @@ import {
   updateDoc,
   doc,
   getFirestore,
-  UpdateData,
 } from 'firebase/firestore';
 import { 
   getAuth,
@@ -30,10 +29,10 @@ export class FirebaseClient {
 
   static async getDocuments<T>(collection: CollectionReference<T>) {
     try {
-      const colorsDocs = await getDocs(collection);
-      const colorsData = colorsDocs.docs.map((doc) => doc.data());
+      const data = await getDocs(collection);
+      const docsData = data.docs.map((doc) => doc.data());
 
-      return colorsData;
+      return docsData;
     } catch (error) {
       console.error(error);
     }
@@ -47,9 +46,9 @@ export class FirebaseClient {
     }
   }
 
-  static async updateDocument<T>(collection: CollectionReference<T>, data: UpdateData<T>) {
+  static async updateDocument<T>(collection: string, data: T) {
     try {
-      await updateDoc(doc(collection), data);
+      await updateDoc(doc(FirebaseClient.db, collection), data);
     } catch (error) {
       console.error(error);
     }

@@ -2,10 +2,6 @@ import {
   FC, 
   SyntheticEvent, 
 } from 'react';
-import { 
-  doc, 
-  updateDoc, 
-} from 'firebase/firestore';
 
 import { Props } from '../types/task-item-types';
 import { useAppDispatch } from '../../../store/hooks/use-dispatch/use-dispatch';
@@ -13,8 +9,8 @@ import { deleteTaskRoutine } from '../../../store/features/tasks-items/routines/
 import { ITasks } from '../../../firestore/types/lists-collection-types';
 import { FirebaseClient } from '../../../firestore/firebase-client/firebase-client';
 import { RemoveListIcon } from '../../remove-list-icon/component';
-import CheckIconSvg from '../../../assets/img/check.svg';
 import { useAppSelector } from '../../../store/hooks/use-app-selector/use-app-selector';
+import { TaskLabel } from '../../task-label/component/task-label';
 
 export const TaskItem: FC<Props> = (props) => {
   const {
@@ -31,7 +27,9 @@ export const TaskItem: FC<Props> = (props) => {
   };
 
   const onCompleteStatusHandler = (item: ITasks) => async (e: SyntheticEvent) => {
-    if ((e.target as HTMLLabelElement).closest('label')) {
+    const parent = (e.target as HTMLLabelElement).closest('label');
+    
+    if (parent) {
       const updatedTask = {
         ...item,
         completed: !item.completed,
@@ -41,7 +39,7 @@ export const TaskItem: FC<Props> = (props) => {
         return task.id !== updatedTask.id ? task : updatedTask;
       });
 
-      await updateDoc(doc(FirebaseClient.db, `users/${userId}/lists/${id}`), {
+      await FirebaseClient.updateDocument(`users/${userId}/lists/${id}`, {
         tasks: updatedTasks,
       });
     }
@@ -59,18 +57,11 @@ export const TaskItem: FC<Props> = (props) => {
         className="tasks__items-checkbox"
       />
 
-      <label
-        htmlFor={`task-checkbox-${item.id}`}
-        className={`tasks__items-label ${item.completed ? 'completed' : ''}`}
-      >
-        <img
-          className="tasks__items-check"
-          src={CheckIconSvg}
-          alt="check icon"
-        />
-
-        {item.title}
-      </label>
+      <TaskLabel 
+        id={item.id}
+        completed={item.completed}
+        title={item.title}
+      />
 
       <RemoveListIcon
         listId={`${id}`} 

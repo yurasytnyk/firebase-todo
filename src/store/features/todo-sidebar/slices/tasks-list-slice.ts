@@ -9,6 +9,7 @@ import { IListsState } from '../types/todo-sidebar-types';
 
 const initialState: IListsState = {
   data: [],
+  filteredData: [],
 };
 
 const tasksListSlice = createSlice({
@@ -17,6 +18,9 @@ const tasksListSlice = createSlice({
   reducers: {
     updateLists(state, action: PayloadAction<IListsCollection[]>) {
       state.data = action.payload;
+    },
+    setFilteredLists(state, action: PayloadAction<IListsCollection[]>) {
+      state.filteredData = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -27,6 +31,9 @@ const tasksListSlice = createSlice({
   },
 });
 
-export const { updateLists } = tasksListSlice.actions;
+export const { 
+  updateLists, 
+  setFilteredLists,
+} = tasksListSlice.actions;
 
 export default tasksListSlice.reducer;

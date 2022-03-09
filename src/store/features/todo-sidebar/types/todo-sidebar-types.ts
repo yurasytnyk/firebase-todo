@@ -7,6 +7,7 @@ export interface IColorsState {
 
 export interface IListsState {
   data: IListsCollection[];
+  filteredData: IListsCollection[];
 }
 
 export interface IPayloadIds {

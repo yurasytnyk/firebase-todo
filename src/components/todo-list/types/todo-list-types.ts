@@ -1,5 +1,7 @@
+import { IListsCollection } from '../../../firestore/types/lists-collection-types';
+
 export interface Props {
-  tasksData: ITodoListData[];
+  filteredData: IListsCollection[];
 }
 
 export interface ITodoListData {

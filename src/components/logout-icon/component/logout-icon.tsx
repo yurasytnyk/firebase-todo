@@ -19,7 +19,10 @@ export const LogoutIcon: FC<Props> = (props) => {
       className="logout__icon"
       onClick={onClickHandler}  
     >
-      <img src={icon} alt="logout icon" />
+      <img 
+        src={icon} 
+        alt="logout icon" 
+      />
     </div>
   );
 };
